@@ -92,10 +92,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "80e37516b8d452d982fc32bd7bb22adbd20e422612ef2b3e1df8b8350cbf199b"
+      sha256: bd7e671d26fd39c78cba82070fa34ef1f830b0e7ed1aeebccabc6561302a7ee5
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.1"
+    version: "6.5.9"
   js:
     dependency: transitive
     description:
@@ -165,6 +165,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_page_indicator:
+    dependency: "direct main"
+    description:
+      name: smooth_page_indicator
+      sha256: "725bc638d5e79df0c84658e1291449996943f93bacbc2cec49963dbbab48d8ae"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   source_span:
     dependency: transitive
     description:
