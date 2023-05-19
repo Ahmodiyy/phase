@@ -1,5 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phase/constant.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingInfoWidget extends ConsumerWidget {
   final String imageUrl;
@@ -19,34 +22,34 @@ class OnboardingInfoWidget extends ConsumerWidget {
       children: [
         Expanded(
           flex: 3,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Image.asset(imageUrl),
-          ),
+          child: Image.asset(imageUrl),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                    child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.displayLarge,
-                )),
-                const Flexible(
-                  child: SizedBox(
-                    height: 20,
+        Flexible(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: AutoSizeText(
+                    title,
+                    style: Theme.of(context).textTheme.displayLarge,
+                    maxLines: 1,
                   ),
                 ),
-                Flexible(
-                    child: Text(
-                  briefExplanation,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )),
-              ],
-            ),
+              ),
+              Flexible(
+                child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AutoSizeText(
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      briefExplanation,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      maxLines: 3,
+                    )),
+              ),
+            ],
           ),
         )
       ],
