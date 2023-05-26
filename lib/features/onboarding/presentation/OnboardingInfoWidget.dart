@@ -5,13 +5,11 @@ import 'package:phase/constant.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingInfoWidget extends ConsumerWidget {
-  final String imageUrl;
   final String title;
   final String briefExplanation;
 
   const OnboardingInfoWidget({
     Key? key,
-    required this.imageUrl,
     required this.title,
     required this.briefExplanation,
   }) : super(key: key);
@@ -19,39 +17,29 @@ class OnboardingInfoWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          flex: 3,
-          child: Image.asset(imageUrl),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: AutoSizeText(
+              title,
+              style: Theme.of(context).textTheme.displayLarge,
+              maxLines: 1,
+            ),
+          ),
         ),
         Flexible(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: AutoSizeText(
-                    title,
-                    style: Theme.of(context).textTheme.displayLarge,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: AutoSizeText(
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      briefExplanation,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      maxLines: 3,
-                    )),
-              ),
-            ],
-          ),
-        )
+          child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: AutoSizeText(
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                briefExplanation,
+                style: Theme.of(context).textTheme.bodyMedium,
+                maxLines: 3,
+              )),
+        ),
       ],
     );
   }

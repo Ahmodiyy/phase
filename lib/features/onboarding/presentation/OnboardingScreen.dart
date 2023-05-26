@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phase/constant.dart';
+import 'package:phase/features/onboarding/presentation/OnboardingImageWidget.dart';
 import 'package:phase/features/onboarding/presentation/OnboardingInfoWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -13,9 +16,37 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen>
+    with TickerProviderStateMixin {
   late PageController pageController;
   final double bottomSheetHeight = 150;
+  double animValue = 0.0;
+  double pageViewHalfPixel = 0.0;
+  double currentOffset = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+
+    pageController.addListener(() {
+      pageController.position.addListener(() {
+        pageViewHalfPixel = pageController.position.maxScrollExtent / 2;
+
+        setState(() {
+          currentOffset = pageController.position.pixels;
+          debugPrint(pageViewHalfPixel.toString());
+          double rateAnimeValue = 3 / pageViewHalfPixel;
+          currentOffset < pageViewHalfPixel
+              ? animValue = currentOffset * rateAnimeValue
+              : animValue =
+                  (currentOffset - pageViewHalfPixel) * rateAnimeValue;
+
+          debugPrint('ANIMVALUE $animValue');
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,29 +55,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: Container(
           padding: EdgeInsets.only(
               bottom: bottomSheetHeight, top: 20, right: 20, left: 20),
-          child: PageView(
-            controller: pageController,
-            children: const [
-              OnboardingInfoWidget(
-                imageUrl: 'images/contraction.png',
-                title: 'Contraction',
-                briefExplanation:
-                    'This period is marked by low institutional volume.',
-              ),
-              OnboardingInfoWidget(
-                imageUrl: 'images/expansion.png',
-                title: 'Expansion',
-                briefExplanation:
-                    'Expansion can either be bullish or bearish depending on the price movement.',
-              ),
-              OnboardingInfoWidget(
-                imageUrl: 'images/trend.png',
-                title: 'Trend',
-                briefExplanation:
-                    'Trends can be long term, short term, upward, downward and even sideways',
-              ),
-            ],
-          ),
+          child: Stack(children: [
+            PageView(
+              controller: pageController,
+              children: const [
+                OnboardingInfoWidget(
+                  title: 'Contraction',
+                  briefExplanation:
+                      'This period is marked by low institutional volume.',
+                ),
+                OnboardingInfoWidget(
+                  title: 'Expansion',
+                  briefExplanation:
+                      'Expansion can either be bullish or bearish depending on the price movement.',
+                ),
+                OnboardingInfoWidget(
+                  title: 'Trend',
+                  briefExplanation:
+                      'Trends can be long term, short term, upward, downward and even sideways',
+                ),
+              ],
+            ),
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()..rotateY(animValue),
+              child: currentOffset < pageViewHalfPixel
+                  ? OnboardingImageWidget(
+                      imageUrl: animValue < 1.5
+                          ? "images/contraction.png"
+                          : "images/expansion.png")
+                  : OnboardingImageWidget(
+                      imageUrl: animValue < 1.5
+                          ? "images/expansion_transform.png"
+                          : "images/trend.png"),
+            ),
+          ]),
         ),
         bottomSheet: Container(
           color: backgroundColor,
@@ -94,11 +137,5 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
 
     pageController.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController();
   }
 }
