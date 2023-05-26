@@ -21,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   late PageController pageController;
   final double bottomSheetHeight = 150;
   double animValue = 0.0;
-  double pageViewHalfPixel = 0.0;
+  double pageViewHalfPixel = 1.0;
   double currentOffset = 0.0;
 
   @override
