@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phase/constant.dart';
+import 'package:phase/features/onboarding/presentation/CustomPageViewScrollPhysics.dart';
 import 'package:phase/features/onboarding/presentation/OnboardingImageWidget.dart';
 import 'package:phase/features/onboarding/presentation/OnboardingInfoWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -57,6 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               bottom: bottomSheetHeight, top: 20, right: 20, left: 20),
           child: Stack(children: [
             PageView(
+              physics: CustomPageViewScrollPhysics(),
               controller: pageController,
               children: const [
                 OnboardingInfoWidget(
@@ -135,7 +137,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void dispose() {
     super.dispose();
-
     pageController.dispose();
   }
 }
