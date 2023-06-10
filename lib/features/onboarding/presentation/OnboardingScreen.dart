@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phase/constant.dart';
 import 'package:phase/features/onboarding/presentation/CustomPageViewScrollPhysics.dart';
 import 'package:phase/features/onboarding/presentation/OnboardingImageWidget.dart';
@@ -58,7 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               bottom: bottomSheetHeight, top: 20, right: 20, left: 20),
           child: Stack(children: [
             PageView(
-              physics: CustomPageViewScrollPhysics(),
+              physics: const CustomPageViewScrollPhysics(),
               controller: pageController,
               children: const [
                 OnboardingInfoWidget(
