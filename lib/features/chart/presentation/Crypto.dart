@@ -8,6 +8,16 @@ class Crypto extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SafeArea(child: Scaffold());
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(flex: 2, child: Container()),
+            Expanded(flex: 1, child: Container()),
+            Expanded(flex: 3, child: Container()),
+          ],
+        ),
+      ),
+    );
   }
 }
