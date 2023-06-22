@@ -54,6 +54,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           padding: EdgeInsets.only(
               bottom: bottomSheetHeight, top: 20, right: 20, left: 20),
           child: Stack(children: [
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()..rotateY(animValue),
+              child: currentOffset < pageViewHalfPixel
+                  ? OnboardingImageWidget(
+                      imageUrl: animValue < 1.5
+                          ? "images/contraction.png"
+                          : "images/expansion.png")
+                  : OnboardingImageWidget(
+                      imageUrl: animValue < 1.5
+                          ? "images/expansion_transform.png"
+                          : "images/trend.png"),
+            ),
             PageView(
               physics: const CustomPageViewScrollPhysics(),
               controller: pageController,
@@ -74,19 +87,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       'Trends can be long term, short term, upward, downward and even sideways',
                 ),
               ],
-            ),
-            Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.identity()..rotateY(animValue),
-              child: currentOffset < pageViewHalfPixel
-                  ? OnboardingImageWidget(
-                      imageUrl: animValue < 1.5
-                          ? "images/contraction.png"
-                          : "images/expansion.png")
-                  : OnboardingImageWidget(
-                      imageUrl: animValue < 1.5
-                          ? "images/expansion_transform.png"
-                          : "images/trend.png"),
             ),
           ]),
         ),
