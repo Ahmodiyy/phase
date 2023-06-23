@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phase/constant.dart';
 import 'package:phase/features/onboarding/presentation/CustomPageViewScrollPhysics.dart';
 import 'package:phase/features/onboarding/presentation/OnboardingImageWidget.dart';
@@ -116,9 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
               Flexible(
                 child: ElevatedButton(
-                  onPressed: () {
-                    debugPrint('Submit button pressed.');
-                  },
+                  onPressed: () => context.go('/crypto'),
                   child: const Text(
                     'Get started',
                   ),
