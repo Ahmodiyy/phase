@@ -117,7 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
               Flexible(
                 child: ElevatedButton(
-                  onPressed: () => context.go('/crypto'),
+                  onPressed: () => context.push('/crypto'),
                   child: const Text(
                     'Get started',
                   ),

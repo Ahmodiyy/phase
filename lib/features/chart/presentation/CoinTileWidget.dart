@@ -6,9 +6,9 @@ class CoinTileWidget extends ConsumerWidget {
   final String imageUrl;
   final String coinName;
   final String coinSymbol;
-  final String priceChange24h;
-  final String priceChangePercentage;
-  final String currentPriceInDollars;
+  final dynamic priceChange24h;
+  final dynamic priceChangePercentage;
+  final dynamic currentPriceInDollars;
   const CoinTileWidget({
     required this.imageUrl,
     required this.coinName,
@@ -21,53 +21,89 @@ class CoinTileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        Image(
-          image: NetworkImage(imageUrl),
-          width: 40,
-        ),
-        Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: SizedBox(
+        height: 50,
+        child: Row(
           children: [
-            AutoSizeText(
-              coinName,
-              style: Theme.of(context).textTheme.displayLarge,
-              maxLines: 1,
+            Expanded(
+              flex: 3,
+              child: Image(
+                image: NetworkImage(imageUrl),
+              ),
             ),
-            AutoSizeText(
-              coinSymbol,
-              style: Theme.of(context).textTheme.bodyMedium,
-              maxLines: 1,
+            const Spacer(),
+            Expanded(
+              flex: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    coinName,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.displaySmall,
+                    maxLines: 1,
+                  ),
+                  Text(
+                    coinSymbol.toUpperCase(),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 15),
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Expanded(
+              flex: 5,
+              child: Container(),
+            ),
+            const Spacer(),
+            Expanded(
+              flex: 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '\$$currentPriceInDollars',
+                    style: Theme.of(context).textTheme.displaySmall,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: AutoSizeText(
+                          priceChange24h.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Spacer(),
+                      Expanded(
+                        flex: 4,
+                        child: AutoSizeText(
+                          priceChangePercentage.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-        Container(
-          width: 100,
-        ),
-        Column(
-          children: [
-            AutoSizeText(
-              currentPriceInDollars,
-              style: Theme.of(context).textTheme.displayLarge,
-              maxLines: 1,
-            ),
-            Row(
-              children: [
-                AutoSizeText(
-                  priceChange24h,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  maxLines: 1,
-                ),
-                AutoSizeText(
-                  priceChangePercentage,
-                  style: Theme.of(context).textTheme.displayLarge,
-                  maxLines: 1,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

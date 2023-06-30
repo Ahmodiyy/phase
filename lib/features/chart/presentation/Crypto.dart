@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:phase/features/chart/domain/Coin.dart';
+import 'package:phase/features/chart/presentation/CoinController.dart';
 import 'package:phase/features/chart/presentation/CoinTileWidget.dart';
+
+final coinControllerProvider =
+    AsyncNotifierProvider.autoDispose<CoinController, List<Coin>>(() {
+  return CoinController();
+});
 
 class Crypto extends ConsumerWidget {
   const Crypto({
@@ -10,6 +17,7 @@ class Crypto extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final coins = ref.watch(coinControllerProvider);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -39,21 +47,29 @@ class Crypto extends ConsumerWidget {
                 ],
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 100,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CoinTileWidget(
-                      imageUrl:
-                          'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-                      coinName: '',
-                      coinSymbol: '',
-                      priceChange24h: '',
-                      priceChangePercentage: '',
-                      currentPriceInDollars: '',
-                    );
-                  },
-                ),
-              ),
+                  child: coins.when(
+                data: (data) {
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      debugPrint("inside list");
+                      return CoinTileWidget(
+                        imageUrl: data[index].imageUrl,
+                        coinName: data[index].coinName,
+                        coinSymbol: data[index].coinSymbol,
+                        priceChange24h: data[index].priceChange24h,
+                        priceChangePercentage:
+                            data[index].priceChangePercentage,
+                        currentPriceInDollars:
+                            data[index].currentPriceInDollars,
+                      );
+                    },
+                  );
+                },
+                error: (object, stack) =>
+                    Center(child: Text(object.toString())),
+                loading: () => const Center(child: CircularProgressIndicator()),
+              )),
             ],
           ),
         ),

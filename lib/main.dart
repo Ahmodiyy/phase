@@ -56,7 +56,11 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
           displayLarge: TextStyle(
               fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black),
-          titleLarge: TextStyle(fontSize: 35.0, fontStyle: FontStyle.italic),
+          displaySmall: TextStyle(
+            fontSize: 19.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
           bodyMedium: TextStyle(fontSize: 18.0, color: Colors.black45),
         ),
         scaffoldBackgroundColor: Colors.white,
