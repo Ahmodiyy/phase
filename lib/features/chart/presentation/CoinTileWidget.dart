@@ -1,5 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phase/features/chart/domain/Price.dart';
 
 class CoinTileWidget extends ConsumerWidget {
   final String imageUrl;
@@ -8,6 +10,7 @@ class CoinTileWidget extends ConsumerWidget {
   final dynamic priceChange24h;
   final dynamic priceChangePercentage;
   final dynamic currentPriceInDollars;
+  final List<Price> coinPrice24h;
   const CoinTileWidget({
     required this.imageUrl,
     required this.coinName,
@@ -15,6 +18,7 @@ class CoinTileWidget extends ConsumerWidget {
     required this.priceChange24h,
     required this.priceChangePercentage,
     required this.currentPriceInDollars,
+    required this.coinPrice24h,
     Key? key,
   }) : super(key: key);
 
@@ -64,7 +68,13 @@ class CoinTileWidget extends ConsumerWidget {
             const Spacer(),
             Expanded(
               flex: 5,
-              child: Container(),
+              child: Container(
+                child: CustomPaint(
+                  child: Container(),
+                  painter:
+                      CondensedPriceChart(coinPrice24h, priceChangePercentage),
+                ),
+              ),
             ),
             const Spacer(),
             Expanded(
@@ -138,5 +148,51 @@ class CoinTileWidget extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class CondensedPriceChart extends CustomPainter {
+  List<Price> price;
+  double priceChangePercentage;
+  CondensedPriceChart(this.price, this.priceChangePercentage);
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double minX = price.first.time.toDouble();
+    final double maxX = price.last.time.toDouble();
+    final double minY = price
+        .map((point) => point.price)
+        .reduce((a, b) => a < b ? a : b)
+        .toDouble();
+    final double maxY = price
+        .map((point) => point.price)
+        .reduce((a, b) => a > b ? a : b)
+        .toDouble();
+
+    final List<Offset> points = price.map((point) {
+      final x = (point.time.toDouble() - minX) / (maxX - minX) * size.width;
+      final y =
+          (1 - (point.price.toDouble() - minY) / (maxY - minY)) * size.height;
+      return Offset(x, y);
+    }).toList();
+
+    final linePaint = Paint()
+      ..color = double.tryParse(priceChangePercentage.toString())!.isNegative
+          ? Colors.red
+          : Colors.green
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    final path = Path();
+    path.moveTo(points.first.dx, points.first.dy);
+    for (int i = 1; i < points.length; i++) {
+      path.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(path, linePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return false;
   }
 }

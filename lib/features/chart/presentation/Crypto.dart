@@ -62,6 +62,7 @@ class Crypto extends ConsumerWidget {
                             data[index].priceChangePercentage,
                         currentPriceInDollars:
                             data[index].currentPriceInDollars,
+                        coinPrice24h: data[index].coinPrice24h,
                       );
                     },
                   );
