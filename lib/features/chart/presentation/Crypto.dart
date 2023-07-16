@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phase/features/chart/domain/Coin.dart';
 import 'package:phase/features/chart/presentation/CoinController.dart';
 import 'package:phase/features/chart/presentation/CoinTileWidget.dart';
@@ -43,7 +44,9 @@ class Crypto extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                  IconButton(
+                      onPressed: () => context.go('/crypto/searchCoin'),
+                      icon: const Icon(Icons.search))
                 ],
               ),
               Expanded(
@@ -53,22 +56,48 @@ class Crypto extends ConsumerWidget {
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
                       debugPrint("inside list");
-                      return CoinTileWidget(
-                        imageUrl: data[index].imageUrl,
-                        coinName: data[index].coinName,
-                        coinSymbol: data[index].coinSymbol,
-                        priceChange24h: data[index].priceChange24h,
-                        priceChangePercentage:
-                            data[index].priceChangePercentage,
-                        currentPriceInDollars:
-                            data[index].currentPriceInDollars,
-                        coinPrice24h: data[index].coinPrice24h,
+                      return GestureDetector(
+                        onTap: () => context.push("/crypto/chart"),
+                        child: CoinTileWidget(
+                          imageUrl: data[index].imageUrl,
+                          coinName: data[index].coinName,
+                          coinSymbol: data[index].coinSymbol,
+                          priceChange24h: data[index].priceChange24h,
+                          priceChangePercentage:
+                              data[index].priceChangePercentage,
+                          currentPriceInDollars:
+                              data[index].currentPriceInDollars,
+                          coinPrice24h: data[index].coinPrice24h,
+                        ),
                       );
                     },
                   );
                 },
-                error: (object, stack) =>
-                    Center(child: Text(object.toString())),
+                error: (object, stack) => Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        "images/network.png",
+                        height: 100,
+                        width: 100,
+                      ),
+                    ),
+                    AutoSizeText(object.toString().toLowerCase()),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref.invalidate(coinControllerProvider);
+                        },
+                        child: const Text("Refresh"),
+                      ),
+                    )
+                  ],
+                )),
                 loading: () => const Center(child: CircularProgressIndicator()),
               )),
             ],

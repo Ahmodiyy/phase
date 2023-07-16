@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phase/features/chart/data/CoinRepo.dart';
 import 'package:phase/features/chart/domain/Coin.dart';
 import 'package:phase/features/chart/domain/Price.dart';
+import 'package:phase/features/chart/domain/SearchedCoin.dart';
 
 class CoinController extends AutoDisposeAsyncNotifier<List<Coin>> {
   @override
@@ -11,15 +12,21 @@ class CoinController extends AutoDisposeAsyncNotifier<List<Coin>> {
   }
 
   Future<List<Coin>> _getCoinsAndPrices() async {
+    // Set the state to loading
+    state = const AsyncValue.loading();
     List<Coin> coins = await ref.read(coinRepoProvider).getCoins();
     for (Coin coin in coins) {
-      List<Price> price = await _getCoinPrice(coin.id);
+      List<Price> price = await getCoinPrice(coin.id);
       coin.coinPrice24h = price;
     }
     return coins;
   }
 
-  Future<List<Price>> _getCoinPrice(String coinId) async {
+  Future<List<Price>> getCoinPrice(String coinId) async {
     return await ref.read(coinRepoProvider).getCoinPrice(coinId);
+  }
+
+  Future<List<SearchedCoin>> searchCoin(String query) async {
+    return await ref.read(coinRepoProvider).searchCoin(query);
   }
 }

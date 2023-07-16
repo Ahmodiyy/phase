@@ -40,8 +40,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ? animValue = currentOffset * rateAnimeValue
               : animValue =
                   (currentOffset - pageViewHalfPixel) * rateAnimeValue;
-
-          debugPrint('ANIMVALUE $animValue');
         });
       });
     });

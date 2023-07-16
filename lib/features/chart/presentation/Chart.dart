@@ -9,7 +9,15 @@ class Chart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
-      child: Scaffold(),
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(child: Container()),
+            Expanded(flex: 3, child: Container()),
+            Expanded(child: Container()),
+          ],
+        ),
+      ),
     );
   }
 }

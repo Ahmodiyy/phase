@@ -5,6 +5,8 @@ import 'package:phase/features/onboarding/presentation/OnboardingScreen.dart';
 import 'package:phase/features/chart/presentation/Crypto.dart';
 import 'package:phase/features/chart/presentation/Chart.dart';
 
+import 'features/chart/presentation/SearchCoin.dart';
+
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -24,6 +26,10 @@ final _router = GoRouter(
             path: 'chart',
             builder: (context, state) => const Chart(),
           ),
+          GoRoute(
+            path: 'searchCoin',
+            builder: (context, state) => const SearchCoin(),
+          ),
         ]),
   ],
 );
@@ -35,6 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: ThemeData(
         elevatedButtonTheme: const ElevatedButtonThemeData(
@@ -48,7 +55,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             padding: MaterialStatePropertyAll(
-              EdgeInsets.all(15),
+              EdgeInsets.all(18),
             ),
             backgroundColor: MaterialStatePropertyAll(Colors.black),
           ),
