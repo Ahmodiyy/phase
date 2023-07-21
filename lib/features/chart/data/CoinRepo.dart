@@ -12,7 +12,7 @@ import '../domain/SearchedCoin.dart';
 class CoinRepo {
   Future<List<Coin>> getCoins() async {
     Response response = await http.get(Uri.parse(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=7&page=1&sparkline=false&locale=en"));
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1&sparkline=false&locale=en"));
     if (response.statusCode == 200) {
       return compute(_parseCoins, response.body);
     } else {

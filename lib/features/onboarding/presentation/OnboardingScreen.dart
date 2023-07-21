@@ -73,17 +73,17 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 OnboardingInfoWidget(
                   title: 'Contraction',
                   briefExplanation:
-                      'This period is marked by low institutional volume.',
+                      'This period is marked by low institutional volume, causing a range.',
                 ),
                 OnboardingInfoWidget(
                   title: 'Expansion',
                   briefExplanation:
-                      'Expansion can either be bullish or bearish depending on the price movement.',
+                      'Increasing institutional volume, range taking highs and lows',
                 ),
                 OnboardingInfoWidget(
                   title: 'Trend',
                   briefExplanation:
-                      'Trends can be long term, short term, upward, downward and even sideways',
+                      'The market makes its moves to higher or lower prices',
                 ),
               ],
             ),
