@@ -211,8 +211,8 @@ class Crypto extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
                       child: Icon(
                         Icons.wifi_tethering_error_rounded_outlined,
                         size: 50,

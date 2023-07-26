@@ -32,8 +32,8 @@ class CoinTileWidget extends ConsumerWidget {
           children: [
             Expanded(
               flex: 3,
-              child: Image(
-                image: NetworkImage(imageUrl),
+              child: Image.network(
+                imageUrl,
               ),
             ),
             const Spacer(),

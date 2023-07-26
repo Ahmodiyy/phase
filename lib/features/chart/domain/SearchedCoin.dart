@@ -13,7 +13,7 @@ class SearchedCoin {
   factory SearchedCoin.fromJson(Map<String, dynamic> json) {
     return SearchedCoin(
       id: json['id'],
-      imageUrl: json["thumb"],
+      imageUrl: json["large"],
       coinName: json["name"],
       coinSymbol: json["symbol"],
     );
