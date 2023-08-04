@@ -25,8 +25,8 @@ class Crypto extends ConsumerWidget {
         backgroundColor: const Color(0xffF1F1F2),
         body: coins.when(
           data: (data) {
-            final currencyFormatter =
-                NumberFormat.currency(locale: 'en_US', symbol: '\$');
+            final currencyFormatter = NumberFormat.currency(
+                locale: 'en_US', symbol: '\$', decimalDigits: 0);
             final amount =
                 currencyFormatter.format(data.first.currentPriceInDollars);
             return Column(
@@ -54,26 +54,34 @@ class Crypto extends ConsumerWidget {
                             const Spacer(
                               flex: 1,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data.first.coinName,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall,
-                                  maxLines: 1,
-                                ),
-                                Text(
-                                  data.first.coinSymbol,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(fontSize: 15),
-                                  maxLines: 1,
-                                ),
-                              ],
+                            SizedBox(
+                              height: 50,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      data.first.coinName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      data.first.coinSymbol,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(fontSize: 15),
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             const Spacer(
                               flex: 20,
@@ -96,11 +104,28 @@ class Crypto extends ConsumerWidget {
                               Text(
                                 data.first.priceChangePercentage.toString(),
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.displaySmall,
+                                style: double.tryParse(data
+                                            .first.priceChangePercentage
+                                            .toString())!
+                                        .isNegative
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .displaySmall
+                                        ?.copyWith(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold)
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .displaySmall
+                                        ?.copyWith(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold),
                                 maxLines: 1,
                               ),
                               Text(
-                                data.first.priceChange24h.toString(),
+                                double.parse(
+                                        data.first.priceChange24h.toString())
+                                    .toStringAsFixed(2),
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
                                     .textTheme

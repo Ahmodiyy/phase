@@ -101,9 +101,8 @@ class CoinTileWidget extends ConsumerWidget {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            double.tryParse(priceChange24h.toString())!
-                                .toStringAsFixed(2)
-                                .toString(),
+                            double.parse(priceChange24h.toString())
+                                .toStringAsFixed(2),
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall,
                             maxLines: 1,
@@ -116,9 +115,8 @@ class CoinTileWidget extends ConsumerWidget {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            double.tryParse(priceChangePercentage.toString())!
-                                .toStringAsFixed(2)
-                                .toString(),
+                            double.parse(priceChangePercentage.toString())
+                                .toStringAsFixed(2),
                             overflow: TextOverflow.ellipsis,
                             style: double.tryParse(
                                         priceChangePercentage.toString())!

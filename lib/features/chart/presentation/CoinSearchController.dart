@@ -8,7 +8,7 @@ class CoinSearchController
     extends AutoDisposeAsyncNotifier<List<SearchedCoin>> {
   @override
   FutureOr<List<SearchedCoin>> build() async {
-    return [];
+    return await ref.read(coinRepoProvider).searchCoin("bitcoin");
   }
 
   Future<void> searchCoin() async {

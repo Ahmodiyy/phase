@@ -7,7 +7,6 @@ const constantInputDecoration = InputDecoration(
   hintText: 'Search',
   fillColor: backgroundColor,
   filled: true,
-  isDense: true,
   suffixIconColor: Colors.black,
   errorBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.white, width: 1.0),

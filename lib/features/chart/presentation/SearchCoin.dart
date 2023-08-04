@@ -23,11 +23,24 @@ final coinSearchControllerProvider =
   return CoinSearchController();
 });
 
-class SearchCoin extends ConsumerWidget {
+class SearchCoin extends ConsumerStatefulWidget {
   const SearchCoin({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _SearchCoinState();
+}
+
+class _SearchCoinState extends ConsumerState<SearchCoin> {
+  late TextEditingController searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final coins = ref.watch(coinSearchControllerProvider);
     return SafeArea(
       child: Scaffold(
@@ -40,14 +53,21 @@ class SearchCoin extends ConsumerWidget {
                     icon: const Icon(Icons.arrow_back_sharp)),
                 Expanded(
                   child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 20),
+                      controller: searchController,
                       decoration: constantInputDecoration.copyWith(
                         suffixIcon: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            searchController.clear();
+                          },
                           icon: const Icon(
                             Icons.cancel_outlined,
-                            size: 25,
+                            size: 30,
                           ),
                         ),
+                        // Increase the vertical padding to increase the height
+                        contentPadding: EdgeInsets.symmetric(vertical: 20),
                       ),
                       onChanged: (value) {
                         ref.read(searchInputProvider.notifier).state = value;
@@ -95,6 +115,7 @@ class SearchCoin extends ConsumerWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
+                            ref.invalidate(searchInputProvider);
                             ref.invalidate(coinSearchControllerProvider);
                           },
                           child: const Text("Refresh"),
@@ -103,7 +124,10 @@ class SearchCoin extends ConsumerWidget {
                     ],
                   ),
                 ),
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.black,
+                )),
               ),
             ),
           ],

@@ -8,8 +8,8 @@ class Price {
   });
   factory Price.fromList(List<dynamic> list) {
     return Price(
-      time: list[0],
-      price: list[1],
+      time: list[0] as int,
+      price: list[1] as double,
     );
   }
 }
